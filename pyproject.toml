@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "subguard"
+version = "0.1.0"
+description = "Public subscription-flow capture for SubGuard"
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.40,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+subguard-capture = "subguard.flow_capture.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
