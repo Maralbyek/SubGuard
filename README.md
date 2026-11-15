@@ -7,15 +7,18 @@ subscription sign-up or cancellation flows against the Consumer Protection Act
 ## Current implementation
 
 - **BLD-02:** repository layout, setup documentation, and secret handling.
+- **BLD-03:** PostgreSQL schema in [`db/schema.sql`](db/schema.sql), including
+  the standalone offline-evaluation summary table.
 - **BLD-04:** `FlowCapturer`, which captures an ordered public flow with the DOM,
   visible text, and a screenshot for each screen.
-- **Not implemented yet:** the database (BLD-03), classifier, retriever, judge,
-  remediation generator, report generator, and offline evaluator.
+- **Not implemented yet:** database connection code, classifier, retriever,
+  judge, remediation generator, report generator, and offline evaluator.
 
 ## Repository layout
 
 ```text
 docs/                         Project report and project documentation
+db/schema.sql                PostgreSQL schema for BLD-03
 src/subguard/
   flow_capture/               Playwright flow capture implementation
   classifier/                 Reserved for the service classifier
@@ -63,6 +66,18 @@ metadata.
 Only `http` and `https` URLs are accepted. URLs containing credentials and
 obvious local/private hosts are rejected.
 
+## Database
+
+BLD-03 targets PostgreSQL, hosted on the team's selected provider. Apply the
+schema with a PostgreSQL client using the `DATABASE_URL` value in `.env`:
+
+```powershell
+psql "$env:DATABASE_URL" -f db/schema.sql
+```
+
+The schema does not include credentials. Never commit `.env` or a real
+`DATABASE_URL`.
+
 ## Tests
 
 ```powershell
@@ -73,4 +88,3 @@ py -m pytest
 
 The system is designed for a compliance indication against Malaysian consumer
 law only. Capture only public-facing pages and use test or disposable data.
-
